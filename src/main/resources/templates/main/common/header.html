@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+<div class="navbar nav-wrapper smoothie" th:fragment="header-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <p class="section-sub-title"><a href="/" style="text-decoration:none;" class="dropdown-toggle section-sub-title">chóng chóng</a></p>
+            </div>
+            <div class="col-sm-6">
+                <p style="margin-top: 25px" >[[${calendar.gregorianCalendar}]]&nbsp;&nbsp;&nbsp;[[${calendar.lunarCalendar}]]</p>
+            </div>
+            <div class="col-sm-4">
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">今日黄历 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">宜：[[${calendar.should}]]</a></li>
+                                <li><a href="#">忌：[[${calendar.avoid}]]</a></li>
+                                <li><a href="#">提醒：[[${calendar.proposal}]]</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a th:href="@{/edit}" class="dropdown-toggle" >发布</a>
+                        </li>
+                        <li class="dropdown" sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/login}" class="dropdown-toggle" >登录</a>
+                        </li>
+                        <li class="dropdown" sec:authorize="isAuthenticated()">
+                            <a th:href="@{/logout}" class="dropdown-toggle" >注销</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+                            <ul class="dropdown-menu">
+                                <form class="form-inline" action="/search" method="post">
+                                    <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button>
+                                    <input type="text" name="search" class="form-control pull-left" placeholder="分类标题内容都行啦">
+                                </form>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
