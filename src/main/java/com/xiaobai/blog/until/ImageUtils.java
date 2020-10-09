@@ -12,15 +12,14 @@ import java.io.*;
 
 @Slf4j
 public class ImageUtils {
-    public static boolean compressPic(String srcFilePath, String descFilePath) throws IOException {
+    public static boolean compressPic(String suffix,String srcFilePath, String descFilePath) throws IOException {
         File file = null;
         BufferedImage src = null;
         FileOutputStream out = null;
         ImageWriter imgWrier;
         ImageWriteParam imgWriteParams;
-
         // 指定写图片的方式为 jpg
-        imgWrier = ImageIO.getImageWritersByFormatName("jpg").next();
+        imgWrier = ImageIO.getImageWritersByFormatName(suffix.toLowerCase()).next();
         imgWriteParams = new javax.imageio.plugins.jpeg.JPEGImageWriteParam(
                 null);
         // 要使用压缩，必须指定压缩方式为MODE_EXPLICIT

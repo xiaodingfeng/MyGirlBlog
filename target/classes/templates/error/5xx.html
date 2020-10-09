@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title>ERROR</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900|Dancing+Script:400,700|Raleway:400,100,300,700,900|Reenie+Beanie&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+    <link href="assets/font-awesome/css/font-awesome.min.css" th:href="@{/assets/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <link href="assets/css/plugins.css" th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <link href="style.css" th:href="@{/style.css}" rel="stylesheet">
+
+</head>
+
+<body class="top-navigation pushy-right-side">
+<!-- Site Overlay -->
+<div class="site-overlay"></div>
+<div id="master-wrapper">
+    <div class="navbar nav-wrapper smoothie">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <p class="section-sub-title"><a href="/" style="text-decoration:none;" class="dropdown-toggle section-sub-title">chóng chóng</a></p>
+                </div>
+
+                <div class="col-sm-8">
+
+                    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a th:href="@{/edit}" class="dropdown-toggle" >发布</a>
+                            </li>
+                            <li class="dropdown" sec:authorize="!isAuthenticated()">
+                                <a th:href="@{/login}" class="dropdown-toggle" >登录</a>
+                            </li>
+                            <li class="dropdown" sec:authorize="isAuthenticated()">
+                                <a th:href="@{/logout}" class="dropdown-toggle" >注销</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+                                <ul class="dropdown-menu">
+                                    <form class="form-inline" action="/search" method="post">
+                                        <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button>
+                                        <input type="text" name="search" class="form-control pull-left" placeholder="分类标题内容都行啦">
+                                    </form>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="fullheight dark-text">
+        <div class="fullheight">
+            <div class="container fullheight text-center">
+                <div class="vertical-center-js">
+                    <h1 th:if="${status}==500"><small>唉</small><br>
+                        oh 是我的问题 服务端炸裂了~</h1>
+                    <h1 th:if="${status}!=500"><small>唉</small><br>
+                        oh 不知道什么问题哦~~</h1>
+                    <p>
+                        <a class="btn btn-white btn-lg" href="/" role="button">去看看作品</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <a href="#" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+    <div class="row sub-footer" style="text-align: center;">
+        <p class="copyright"><small>XXX &copy; 2020-2099.虫虫专属.</small></p>
+    </div>
+</div>
+
+<script src="assets/js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js" th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+<script src="assets/js/owl-carousel.js" th:src="@{/assets/js/owl-carousel.js}"></script>
+<script src="assets/js/plugins.js" th:src="@{/assets/js/plugins.js}"></script>
+
+<script src="assets/js/init.js" th:src="@{/assets/js/init.js}"></script>
+
+</body>
+</html>

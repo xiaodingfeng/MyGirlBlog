@@ -46,7 +46,7 @@ public class UploadFile {
                 }
                 try {
                     multipartFile.transferTo(dest);
-                    boolean b = ImageUtils.compressPic(dest.toString(), dest.toString());
+                    boolean b = ImageUtils.compressPic(suffix,dest.toString(), dest.toString());
                     String staticAccessPath1 = staticAccessPath.replaceAll("\\*", "");
                     data[i] = (staticAccessPath1 + Path + fileName);
                     i++;

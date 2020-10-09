@@ -19,6 +19,13 @@
     <link href="assets/font-awesome/css/font-awesome.min.css" th:href="@{/assets/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
    <link href="assets/css/plugins.css" th:href="@{/assets/css/plugins.css}" rel="stylesheet">
     <link href="style.css" th:href="@{/style.css}" rel="stylesheet">
+    <style>
+        .image-item {
+            display: block;
+            margin-bottom: 50px;
+            height: 300px;//一定记得设置图片高度
+        }
+    </style>
 </head>
 
 <body class="top-navigation pushy-right-side regular-nav">
@@ -34,11 +41,7 @@
                 <div class="container">
                     <div class="row mb60 text-center">
                         <div class="col-sm-12">
-                            <p id="Birth" style="display: none">[[${nowtime}]]</p>
-                            <blockquote  class="text-left">
-                                <div id="test2"></div>
-                            </blockquote>
-                            <p class="section-sub-title">欢迎回来！</p>
+                            <p class="section-sub-title">欢迎回来！    转到>>>>>>>><a href="https://www.cnblogs.com/xiaobaibuai/">博客园</a></p>
                             <p class="section-sub-title text-left match-height">最近</p>
                         </div>
 
@@ -50,8 +53,8 @@
                         <div class="col-md-6 match-height mb30" th:classappend="${(userStat.count>2?'col-md-4':'')}" th:each="item,userStat:${textContent}" >
                             <div class="hover-effect smoothie">
                                 <a href="#" class="smoothie">
-                                    <img th:src="${item.imageUri}" alt="Image" th:if="${item.imageUri}!=null" class="img-responsive smoothie"></a>
-                                    <img th:src="@{/assets/images/blog/blog-6.jpg}" th:if="${item.imageUri}==null" alt="默认图片" class="img-responsive smoothie"></a>
+                                    <img src="" th:attr="data-original=${item.imageUri}"   th:if="${item.imageUri}!=null" class="img-responsive smoothie image-item"></a>
+                                    <img src="" th:attr="data-original=@{/static/assets/images/blog/blog-6.jpg}"   th:if="${item.imageUri}==null" class="img-responsive smoothie image-item"></a>
                                 <div class="hover-overlay smoothie text-center">
                                  <h6 style="color: #F64747;" >[[${#dates.format(item.time, 'yyyy-MM-dd HH:mm')}]]</h6>
                                     <div class="vertical-align-bottom">
@@ -109,8 +112,8 @@
                                                     <div class="col-sm-4 masonry-portfolio-item mb30 mb30" th:classappend="${item.categoryName}" th:each="item:${textContentAll}">
                                                         <div class="hover-effect smoothie">
                                                             <a href="#" class="smoothie">
-                                                                <img th:src="${item.imageUri}" alt="Image" th:if="${item.imageUri}!=null" class="img-responsive smoothie"></a>
-                                                            <img th:src="@{/assets/images/blog/blog-6.jpg}" th:if="${item.imageUri}==null" alt="默认图片" class="img-responsive smoothie"></a>
+                                                                <img src="" th:attr="data-original=${item.imageUri}"   th:if="${item.imageUri}!=null" class="img-responsive smoothie image-item"></a>
+                                                            <img src="" th:attr="data-original=@{/static/assets/images/blog/blog-6.jpg}"   th:if="${item.imageUri}==null"  class="img-responsive smoothie image-item"></a>
                                                             <div class="hover-overlay smoothie text-center">
                                                                 <div class="vertical-align-bottom">
                                                                     <h4 th:text="${item.title}"></h4>
@@ -152,6 +155,39 @@
     <script src="assets/js/init.js" th:src="@{/assets/js/init.js}"></script>
     <script type="text/javascript" th:src="@{/assets/layui/layui.js}"></script>
     <script>
+        //进页面直接调用
+        start()
+        // 滚动的时候执行加载函数
+        $(window).on('scroll',function(){
+            start()
+        })
+
+        //加载函数
+        function start(){
+            //not('[data-isLoaded]') 用来过滤已经加载过的，实现节流
+            $('.container img').not('[data-isLoaded]').each(function(){
+                if( isShow($(this)) ){
+                    loadImg($(this))
+                }
+            })
+        }
+
+        // 判断是否进入视野的函数
+        function isShow($node){
+            return $node.offset().top <= $(window).height() + $(window).scrollTop()
+        }
+
+        // 格式化图片加载地址函数
+        function loadImg($img){
+            //setTimeout模拟延迟 测试效果用，实际环境不要加
+            // setTimeout(function(){
+            $img.attr('src', $img.attr('data-original'))
+            // },500)
+            //加载过后就添加 data-isLoaded属性
+            $img.attr('data-isLoaded',1)
+        }
+    </script>
+    <script>
             function f(id) {
                 layui.use(['jquery','layer'], function() {
                     var layer = layui.layer,$=layui.jquery;
@@ -176,27 +212,6 @@
                 });
                 })
             }
-            layui.use(['util', 'laydate', 'layer'], function() {
-                var util = layui.util
-                    , laydate = layui.laydate
-                    , $ = layui.$
-                    , layer = layui.layer;
-
-                //倒计时
-                var thisTimer, setCountdown = function(y, M, d, H, m, s){
-                    var endTime = new Date(y, M||0, d||1, H||0, m||0, s||0) //结束日期
-                        ,serverTime = new Date(); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
-
-                    clearTimeout(thisTimer);
-                    util.countdown(endTime, serverTime, function(date, serverTime, timer){
-                        var str = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
-                        lay('#test2').html("距离大仙女生日还有"+str);
-                        thisTimer = timer;
-                    });
-                };
-                let split = $("#Birth").text().split("-");
-                setCountdown(split[0],split[1],split[2]);
-            })
     </script>
 </body>
 

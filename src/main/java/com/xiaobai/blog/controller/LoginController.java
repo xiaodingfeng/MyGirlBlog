@@ -30,24 +30,22 @@ public class LoginController {
     JsoupUntils jsoupUntils;
     @GetMapping("/")
     public String main(Model model){
-        Collection<Content> textContent=contentService.getallcontent(0,10);
-        Collection<Content> contents=new ArrayList<>();
-        for (Content content : textContent) {
-            String regex = "<\\s*img(.+?)src=[\"'](.*?)[\"']\\s*/?\\s*>";
-            Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        Collection<Content> textContent=contentService.getallcontent(0,null);
+        List<Content> contents = new ArrayList<>(textContent);
+        String regex = "<\\s*img(.+?)src=[\"'](.*?)[\"']\\s*/?\\s*>";
+        Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        for (Content content : contents) {
             Matcher matcher = pattern.matcher(content.getTextContent());
             while (matcher.find()) {
                 content.setTextContent(content.getTextContent().replaceAll(matcher.group(0),""));
             }
-            contents.add(content);
         }
-        model.addAttribute("textContent",contents);
-        textContent=contentService.getallcontent(0,null);
-        model.addAttribute("textContentAll",textContent);
+        model.addAttribute("textContentAll",contents);
+        int index=contents.size()>9?8:contents.size()-1;
+        model.addAttribute("textContent",contents.subList(0,index));
 
         Collection<Category> categories=categoryService.getallCategory();
         model.addAttribute("category",categories);
-
         HashSet<String> set=new HashSet<>();
         set.add("获取出错-哭");
         Calendar cl=Calendar.getInstance();
@@ -57,12 +55,6 @@ public class LoginController {
             document= yellowCalendar;
         }
         model.addAttribute("calendar",document);
-        String birth =userService.getBirth();
-        String[] split = birth.split("-");
-        int Month = Integer.parseInt(split[1]);
-        int Year=Integer.parseInt(split[0]);
-        int Day=Integer.parseInt(split[2]);
-        model.addAttribute("nowtime",Year+"-"+Month+"-"+Day);
         return "main/index";
     }
     @GetMapping("/login")
